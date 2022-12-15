@@ -18,7 +18,7 @@ export const config: Options.Testrunner = {
       "appium:automationName": "XCUITest",
       "appium:app":
         "/Users/guido.cotelesso/Documents/MODO/payment-mobile/ios/build/Build/Products/QA-iphonesimulator/MODO.app",
-      "appium:platformVersion": "16.1",
+      "appium:platformVersion": "16.2",
       "appium:deviceName": "iPhone 14",
     },
   ],
@@ -31,7 +31,7 @@ export const config: Options.Testrunner = {
   services: ["appium"],
   port: 4723,
   framework: "jasmine",
-  reporters: ["spec"],
+  reporters: ["spec, allure"],
   jasmineOpts: {
     defaultTimeoutInterval: 60000,
     expectationResultHandler(passed, assertion) {},
