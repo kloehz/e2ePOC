@@ -1,4 +1,5 @@
 import type { Options } from "@wdio/types";
+import allure from "allure-commandline";
 
 export const config: Options.Testrunner = {
   runner: "local",
@@ -31,9 +32,41 @@ export const config: Options.Testrunner = {
   services: ["appium"],
   port: 4723,
   framework: "jasmine",
-  reporters: ["spec, allure"],
+  reporters: [
+    "spec",
+    [
+      "allure",
+      {
+        outputDir: "allure-results",
+        disableWebdriverStepsReporting: true,
+        disableWebdriverScreenshotsReporting: true,
+      },
+    ],
+  ],
   jasmineOpts: {
     defaultTimeoutInterval: 60000,
     expectationResultHandler(passed, assertion) {},
+  },
+  afterTest: async function (step, { error, duration, passed }, context) {
+    if (error) {
+      await browser.takeScreenshot();
+    }
+  },
+  onComplete: function () {
+    const reportError = new Error("Could not generate Allure report");
+    const generation = allure(["generate", "allure-results", "--clean"]);
+    return new Promise((resolve, reject) => {
+      const generationTimeout = setTimeout(() => reject(reportError), 5000);
+
+      generation.on("exit", function (exitCode) {
+        clearTimeout(generationTimeout);
+
+        if (exitCode !== 0) {
+          return reject(reportError);
+        }
+        console.log("Allure report successfully generated");
+        resolve(true);
+      });
+    });
   },
 };

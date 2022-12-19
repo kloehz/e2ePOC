@@ -1,0 +1,1 @@
+{"11e8d78ad5ee5fad8b4e7315fb1a2614":{"statistic":{"failed":1,"broken":0,"skipped":0,"passed":0,"unknown":0,"total":1},"items":[{"uid":"bce39a4252393d08","status":"failed","statusDetails":"Error: Can't call getHTML on element with selector \"#full_name\" because element wasn't found","time":{"start":1671201852435,"stop":1671201894046,"duration":41611}}]}}
